@@ -1,0 +1,30 @@
+// Imports
+const express = require('express');
+const cors = require('cors');
+const app = express();
+const dotenv = require('dotenv');
+
+// config
+dotenv.config();
+require('./app/config/connect');
+
+
+// Custom Imports
+const redirect = require('./app/routes/redirect');
+const route = require('./app/middleware/route');
+const error = require('./app/middleware/error');
+const port = require('./app/config/Port');
+
+
+// Middlewares
+app.use(express.json());
+app.use(cors());
+app.use(route);
+app.use(error);
+
+
+// Redirect
+app.use('/api/v1', redirect);
+
+
+app.listen(port, () => { console.log(`App is up and running @ ${port}`) })
