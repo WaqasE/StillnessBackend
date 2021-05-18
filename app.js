@@ -10,8 +10,8 @@ require('./app/config/connect');
 
 
 // Custom Imports
-const redirect = require('./app/routes/redirect');
 const route = require('./app/middleware/route');
+const redirect = require('./app/routes/redirect');
 const error = require('./app/middleware/error');
 const port = require('./app/config/Port');
 
