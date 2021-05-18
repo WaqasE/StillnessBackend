@@ -1,7 +1,10 @@
+// Route Not Found MiddleWare
 module.exports = ((req, res, next) => {
-    if (!req.route)
+    if (!req.originalUrl.includes('/api/v1'))
         next({
             status: 404,
             msg: 'requested route not available!'
         })
+    else
+        next();
 })

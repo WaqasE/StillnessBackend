@@ -28,5 +28,5 @@ const MomentSchema = new mongoose.Schema(
     }
 )
 
-const Moment = mongoose.model(Moment, MomentSchema);
+const Moment = mongoose.model('Moment', MomentSchema);
 exports.Moment = Moment;
