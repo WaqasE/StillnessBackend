@@ -14,9 +14,9 @@ const { Favourite } = require('../models/Favourite');
 
 // /api/v1/users/reg/
 router.post('/', async (req, res, next) => {
-    const data = _.pick(req.body, ['name', 'email', 'password']);
+    const data = _.pick(req.body, ['name', 'email', 'password', 'joined']);
     console.log(data);
-    if (data.name && data.email && data.password) {
+    if (data.name && data.email && data.password && data.joined) {
         if (await User.findOne({ email: data.email })) {
             next({
                 status: 400,
@@ -26,7 +26,7 @@ router.post('/', async (req, res, next) => {
         else {
             const salt = await bycrypt.genSalt(10);
             const password = await bycrypt.hash(data.password, salt);
-            const newUser = new User({ name: data.name, email: data.email, password: password, joined: moment().format('MMMM Do YYYY, h:mm:ss a') });
+            const newUser = new User({ name: data.name, email: data.email, password: password, joined: data.joined });
             await newUser.save(newUser);
             const userFav = new Favourite({ user: newUser._id, programs: [], moments: [], posts: [] });
             await userFav.save(userFav);
