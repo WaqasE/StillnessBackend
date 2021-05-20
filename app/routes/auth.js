@@ -17,7 +17,7 @@ router.post('/', async (req, res, next) => {
     if (data.email && data.password) {
         const userExist = await User.findOne({ email: data.email });
         if (userExist) {
-            const validPassword = bycrypt.compare(data.password, userExist.password);
+            const validPassword = await bycrypt.compare(data.password, userExist.password);
             if (!validPassword) return res.status(400).send('Invalid email or password!');
             const token = jwt.sign(_.pick(userExist, ['_id', 'name', 'joined']), process.env.JWTPRIVATEKEY);
             return res.status(200).send(token);
