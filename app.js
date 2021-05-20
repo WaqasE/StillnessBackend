@@ -21,7 +21,7 @@ app.use(express.json());
 app.use(cors());
 
 
-Custom Middlewares
+// Custom Middlewares
 app.use(route);
 app.use('/api/v1', redirect); // Redirect
 app.use(error);
