@@ -15,6 +15,7 @@ const { Favourite } = require('../models/Favourite');
 // /api/v1/users/reg/
 router.post('/', async (req, res, next) => {
     const data = _.pick(req.body, ['name', 'email', 'password']);
+    console.log(data);
     if (data.name && data.email && data.password) {
         if (await User.findOne({ email: data.email })) {
             next({
