@@ -14,19 +14,19 @@ const ProgramSchema = new mongoose.Schema(
             required: true,
         },
         intro: {
-            type: String,
+            type: Array,
             required: true,
         },
         middle: {
-            type: String,
+            type: Array,
             required: true,
         },
         centering: {
-            type: String,
+            type: Array,
             required: true,
         },
         outro: {
-            type: String,
+            type: Array,
             required: true,
         }
 
