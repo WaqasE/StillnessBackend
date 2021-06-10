@@ -14,15 +14,15 @@ const MomentSchema = new mongoose.Schema(
             required: true,
         },
         short: {     //15 min
-            type: String,
+            type: Array,
             required: true,
         },
         normal: {   //30 min
-            type: String,
+            type: Array,
             required: true,
         },
         long: {     //1 hour
-            type: String,
+            type: Array,
             required: true,
         }
     }
