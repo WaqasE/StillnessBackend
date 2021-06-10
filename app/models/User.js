@@ -13,6 +13,10 @@ const UserSchema = new mongoose.Schema(
             type: String,
             required: true,
         },
+        favourites:{
+            type: Array,
+            required: true,
+        },
         joined: {
             type: String,
             required: true,

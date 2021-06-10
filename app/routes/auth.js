@@ -8,7 +8,6 @@ const jwt = require('jsonwebtoken');
 
 // Custom Imports
 const { User } = require('../models/User');
-const { Favourite } = require('../models/Favourite');
 const Time = require('../utility/Time')
 
 // /api/v1/users/auth/

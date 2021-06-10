@@ -8,7 +8,6 @@ const jwt = require('jsonwebtoken');
 
 // Custom Imports
 const { User } = require('../models/User');
-const { Favourite } = require('../models/Favourite');
 
 
 
@@ -28,8 +27,6 @@ router.post('/', async (req, res, next) => {
             const password = await bycrypt.hash(data.password, salt);
             const newUser = new User({ name: data.name, email: data.email, password: password, joined: data.joined });
             await newUser.save(newUser);
-            const userFav = new Favourite({ user: newUser._id, programs: [], moments: [], posts: [] });
-            await userFav.save(userFav);
             const token = jwt.sign(_.pick(newUser, ['_id', 'name', 'joined']), process.env.JWTPRIVATEKEY);
             return res.status(200).send(token);
         }
