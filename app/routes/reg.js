@@ -25,7 +25,7 @@ router.post('/', async (req, res, next) => {
         else {
             const salt = await bycrypt.genSalt(10);
             const password = await bycrypt.hash(data.password, salt);
-            const newUser = new User({ name: data.name, email: data.email, password: password, joined: data.joined });
+            const newUser = new User({ name: data.name, email: data.email, password: password, favourites: [{}, {}, {}], joined: data.joined });
             await newUser.save(newUser);
             const token = jwt.sign(_.pick(newUser, ['_id', 'name', 'joined']), process.env.JWTPRIVATEKEY);
             return res.status(200).send(token);
