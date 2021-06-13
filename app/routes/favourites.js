@@ -18,13 +18,13 @@ const { Post } = require('../models/Post');
 router.post('/program', async (req, res, next) => {
     const data = _.pick(req.body, ['_id', 'programId', 'programName', 'programObjectCount']);
     if (data._id && data.programId && data.programName && data.programObjectCount) {
-        const userExist = await User.findOne({ _id: data._id });
+        var userExist = await User.findOne({ _id: data._id });
         const programExist = await Program.findOne({ _id: data.programId });
         if (userExist && programExist) {
             const userFav = userExist['favourites'];
-            var userFavUpdated = {};
-            console.log(userFavUpdated);
-            userExist['favourites'] = [{}, { ...userFav[1] }, { ...userFav[2] }];
+            var userFavUpdated = userFav[0];
+            userFavUpdated[userFavUpdated.length] = { programId: data.programId, programName: data.programName, programObjectCount: data.programObjectCount };
+            userExist['favourites'].set(0, userFavUpdated);
             await userExist.save(userExist);
             res.status(200).send(userExist);
         }
@@ -44,9 +44,24 @@ router.post('/program', async (req, res, next) => {
 })
 
 router.post('/moment', async (req, res, next) => {
-    const data = _.pick(req.body, ['_id', 'momentId']);
-    if (data.name && data.email && data.password && data.joined) {
-
+    const data = _.pick(req.body, ['_id', 'momentId', 'momentName', 'momentObjectCount']);
+    if (data._id && data.momentId && data.momentName && data.momentObjectCount) {
+        var userExist = await User.findOne({ _id: data._id });
+        const momentExist = await Moment.findOne({ _id: data.momentId });
+        if (userExist && momentExist) {
+            const userFav = userExist['favourites'];
+            var userFavUpdated = userFav[1];
+            userFavUpdated[userFavUpdated.length] = { momentId: data.momentId, momentName: data.momentName, momentObjectCount: data.momentObjectCount };
+            userExist['favourites'].set(1, userFavUpdated);
+            await userExist.save(userExist);
+            res.status(200).send(userExist);
+        }
+        else {
+            next({
+                status: 400,
+                msg: 'Invalid user or moment!'
+            })
+        }
     }
     else {
         next({
@@ -58,8 +73,23 @@ router.post('/moment', async (req, res, next) => {
 
 router.post('/post', async (req, res, next) => {
     const data = _.pick(req.body, ['_id', 'postId']);
-    if (data.name && data.email && data.password && data.joined) {
-
+    if (data._id && data.postId) {
+        var userExist = await User.findOne({ _id: data._id });
+        const postExist = await Post.findOne({ _id: data.postId });
+        if (userExist && postExist) {
+            const userFav = userExist['favourites'];
+            var userFavUpdated = userFav[2];
+            userFavUpdated[userFavUpdated.length] = { postId: data.postId};
+            userExist['favourites'].set(2, userFavUpdated);
+            await userExist.save(userExist);
+            res.status(200).send(userExist);
+        }
+        else {
+            next({
+                status: 400,
+                msg: 'Invalid user or post!'
+            })
+        }
     }
     else {
         next({
@@ -71,5 +101,3 @@ router.post('/post', async (req, res, next) => {
 
 module.exports = router;
 
-
-            // { programId: data.programId, programName: data.programName, programObjectCount: data.programObjectCount }
