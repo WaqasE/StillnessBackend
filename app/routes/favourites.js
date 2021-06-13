@@ -22,16 +22,11 @@ router.post('/program', async (req, res, next) => {
         const programExist = await Program.findOne({ _id: data.programId });
         if (userExist && programExist) {
             const userFav = userExist['favourites'];
-            if (userFav.length > 0) {
-                var userFavUpdated = [];    
-                userFavUpdated[0]={}                
-            }
-            else {
-                const userFavUpdated = [{ 0: { programId: data.programId, programName: data.programName, programObjectCount: data.programObjectCount } }]
-                userExist.favourites = userFavUpdated;
-                await userExist.save(userExist);
-                res.status(200).send(userExist);
-            }
+            var userFavUpdated = {};
+            console.log(userFavUpdated);
+            userExist['favourites'] = [{}, { ...userFav[1] }, { ...userFav[2] }];
+            await userExist.save(userExist);
+            res.status(200).send(userExist);
         }
         else {
             next({
@@ -75,3 +70,6 @@ router.post('/post', async (req, res, next) => {
 })
 
 module.exports = router;
+
+
+            // { programId: data.programId, programName: data.programName, programObjectCount: data.programObjectCount }
