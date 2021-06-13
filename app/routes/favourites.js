@@ -79,7 +79,7 @@ router.post('/post', async (req, res, next) => {
         if (userExist && postExist) {
             const userFav = userExist['favourites'];
             var userFavUpdated = userFav[2];
-            userFavUpdated[userFavUpdated.length] = { postId: data.postId};
+            userFavUpdated[userFavUpdated.length] = { postId: data.postId };
             userExist['favourites'].set(2, userFavUpdated);
             await userExist.save(userExist);
             res.status(200).send(userExist);
@@ -88,6 +88,29 @@ router.post('/post', async (req, res, next) => {
             next({
                 status: 400,
                 msg: 'Invalid user or post!'
+            })
+        }
+    }
+    else {
+        next({
+            status: 400,
+            msg: 'Invalid input!'
+        })
+    }
+})
+
+router.post('/favs', async (req, res, next) => {
+    const data = _.pick(req.body, ['_id']);
+    if (data._id) {
+        var userExist = await User.findOne({ _id: data._id });
+        if (userExist) {
+            const userFav = userExist['favourites'];
+            res.status(200).send(userFav);
+        }
+        else {
+            next({
+                status: 400,
+                msg: 'Invalid user'
             })
         }
     }
