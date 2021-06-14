@@ -15,9 +15,18 @@ router.post('/', async (req, res, next) => {
     return res.send(newProgram);
 })
 
-router.get('/', async (req, res, next) => {
-    const programs = await Program.find({});
-    return res.status(200).send(programs)
+router.get('/getProgram', async (req, res, next) => {
+    const data = _.pick(req.body, [_id]);
+    const programExist = await Program.find({_id:data._id});
+    if (programExist) {
+        res.status(200).send(programExist);
+    }
+    else {
+        next({
+            status: 400,
+            msg: 'Invalid program!'
+        })
+    }
 })
 
 module.exports = router;
