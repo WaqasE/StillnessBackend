@@ -15,7 +15,7 @@ router.post('/', async (req, res, next) => {
     return res.send(newProgram);
 })
 
-router.get('/getProgram', async (req, res, next) => {
+router.get('/', async (req, res, next) => {
     const data = _.pick(req.body, [_id]);
     const programExist = await Program.find({_id:data._id});
     if (programExist) {
