@@ -16,17 +16,8 @@ router.post('/', async (req, res, next) => {
 })
 
 router.get('/', async (req, res, next) => {
-    const data = _.pick(req.body, [_id]);
-    const programExist = await Program.find({_id:data._id});
-    if (programExist) {
-        res.status(200).send(programExist);
-    }
-    else {
-        next({
-            status: 400,
-            msg: 'Invalid program!'
-        })
-    }
+    const programs = await Program.find({});
+    return res.status(200).send(programs)
 })
 
 module.exports = router;
