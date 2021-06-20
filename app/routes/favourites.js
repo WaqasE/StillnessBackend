@@ -23,10 +23,27 @@ router.post('/program', async (req, res, next) => {
         if (userExist && programExist) {
             const userFav = userExist['favourites'];
             var userFavUpdated = userFav[0];
-            userFavUpdated[userFavUpdated.length] = { programId: data.programId, programName: data.programName, programObjectCount: data.programObjectCount, name: programExist.name, image: programExist.image, models: programExist[data.programName][data.programObjectCount].models };
-            userExist['favourites'].set(0, userFavUpdated);
-            await userExist.save(userExist);
-            res.status(200).send(userExist);
+            const newFav = {
+                programId: data.programId,
+                programName: data.programName,
+                programObjectCount: data.programObjectCount,
+                name: programExist.name,
+                image: programExist.image,
+                models: programExist[data.programName][data.programObjectCount].models
+            };
+            const favExist = userFavUpdated.findIndex((item) => _.isEqual(item, newFav));
+            if (favExist < 0) {
+                userFavUpdated[userFavUpdated.length] = newFav;
+                userExist['favourites'].set(0, userFavUpdated);
+                await userExist.save(userExist);
+                res.status(200).send(userExist);
+            }
+            else if (favExist >= 0) {
+                userFavUpdated.splice(favExist, 1);
+                userExist['favourites'].set(0, userFavUpdated);
+                await userExist.save(userExist);
+                res.status(200).send(userExist);
+            }
         }
         else {
             next({
@@ -51,10 +68,27 @@ router.post('/moment', async (req, res, next) => {
         if (userExist && momentExist) {
             const userFav = userExist['favourites'];
             var userFavUpdated = userFav[1];
-            userFavUpdated[userFavUpdated.length] = { momentId: data.momentId, momentName: data.momentName, momentObjectCount: data.momentObjectCount, name: momentExist.name, image: momentExist.image, models: momentExist[data.momentName][data.momentObjectCount].models };
-            userExist['favourites'].set(1, userFavUpdated);
-            await userExist.save(userExist);
-            res.status(200).send(userExist);
+            const newFav = {
+                momentId: data.momentId,
+                momentName: data.momentName,
+                momentObjectCount: data.momentObjectCount,
+                name: momentExist.name,
+                image: momentExist.image,
+                models: momentExist[data.momentName][data.momentObjectCount].models
+            };
+            const favExist = userFavUpdated.findIndex((item) => _.isEqual(item, newFav));
+            if (favExist < 0) {
+                userFavUpdated[userFavUpdated.length] = newFav;
+                userExist['favourites'].set(1, userFavUpdated);
+                await userExist.save(userExist);
+                res.status(200).send(userExist);
+            }
+            else if (favExist >= 0) {
+                userFavUpdated.splice(favExist, 1);
+                userExist['favourites'].set(1, userFavUpdated);
+                await userExist.save(userExist);
+                res.status(200).send(userExist);
+            }
         }
         else {
             next({
@@ -79,10 +113,25 @@ router.post('/post', async (req, res, next) => {
         if (userExist && postExist) {
             const userFav = userExist['favourites'];
             var userFavUpdated = userFav[2];
-            userFavUpdated[userFavUpdated.length] = { postId: data.postId, title: postExist.title, body: postExist.body, image: postExist.image };
-            userExist['favourites'].set(2, userFavUpdated);
-            await userExist.save(userExist);
-            res.status(200).send(userExist);
+            const newFav = {
+                postId: data.postId,
+                title: postExist.title,
+                body: postExist.body,
+                image: postExist.image
+            };
+            const favExist = userFavUpdated.findIndex((item) => _.isEqual(item, newFav));
+            if (favExist < 0) {
+                userFavUpdated[userFavUpdated.length] = newFav;
+                userExist['favourites'].set(2, userFavUpdated);
+                await userExist.save(userExist);
+                res.status(200).send(userExist);
+            }
+            else if (favExist >= 0) {
+                userFavUpdated.splice(favExist, 1);
+                userExist['favourites'].set(2, userFavUpdated);
+                await userExist.save(userExist);
+                res.status(200).send(userExist);
+            }
         }
         else {
             next({
