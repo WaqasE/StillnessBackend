@@ -17,9 +17,6 @@ const { Post } = require('../models/Post');
 // /api/v1/users/fav/
 router.post('/program', async (req, res, next) => {
     const data = _.pick(req.body, ['_id', 'programId', 'programName', 'programObjectCount']);
-    console.log(data.programId?'1':'0');
-    console.log(data.programName?'1':'0');
-    console.log(data.programObjectCount?'1':'0');
     if (data._id && data.programId && data.programName && data.programObjectCount) {
         console.log('testing................');
         var userExist = await User.findOne({ _id: data._id });
